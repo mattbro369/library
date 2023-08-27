@@ -1,3 +1,5 @@
+// TODO Complete add book form
+
 const myLibrary = [];
 
 function Book(title, author, pageNo, read) {
@@ -19,24 +21,31 @@ function addBookToLibrary(book) {
 
 const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, "not read yet");
 
-const theFellowshipOfTheRing = new Book(
-  "The Fellowship of the Ring",
-  "J.R.R Tolkien",
-  432,
-  "read"
-);
+const addBookButton = document.getElementById("add-book");
 
-const prisonerOfAzkaban = new Book(
-  "Harry Potter and the Prisoner of Azkaban",
-  "J.K Rowling",
-  435,
-  "read"
-);
+addBookButton.addEventListener("click", () => {
+  console.log("working");
+});
 
-const catchingFire = new Book(
-  "The Hunger Games: Catching Fire",
-  "Suzanne Collins",
-  391,
-  "not read"
-);
-// console.log(theHobbit.bookInfo())
+// const theFellowshipOfTheRing = new Book(
+// "The Fellowship of the Ring",
+// "J.R.R Tolkien",
+// 432,
+// "read"
+// );
+//
+// const prisonerOfAzkaban = new Book(
+// "Harry Potter and the Prisoner of Azkaban",
+// "J.K Rowling",
+// 435,
+// "read"
+// );
+//
+// const catchingFire = new Book(
+// "The Hunger Games: Catching Fire",
+// "Suzanne Collins",
+// 391,
+// "not read"
+// );
+
+// console.log(catchingFire.bookInfo());
