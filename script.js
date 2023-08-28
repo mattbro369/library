@@ -2,6 +2,12 @@
 
 const myLibrary = [];
 
+const form = document.getElementById("bookForm");
+const input = document.querySelector("input");
+window.onload = function () {
+  form.reset();
+};
+
 function Book(title, author, pageNo, read) {
   this.title = title;
   this.author = author;
@@ -25,6 +31,30 @@ const addBookButton = document.getElementById("add-book");
 
 addBookButton.addEventListener("click", () => {
   console.log("working");
+});
+
+// * Empty form validation
+const value = input.value;
+
+input.addEventListener("input", () => {
+  if (!value) {
+    input.dataset.state = "";
+    return;
+  }
+
+  const trimmed = value.trim();
+
+  form.addEventListener("submit", (evt) => {
+    evt.preventDefault();
+    console.log("Submitting");
+    // Validate input
+
+    if (trimmed) {
+      input.dataset.state = "valid";
+    } else {
+      input.dataset.state = "invalid";
+    }
+  });
 });
 
 // const theFellowshipOfTheRing = new Book(
