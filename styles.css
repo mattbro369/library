@@ -74,8 +74,6 @@ body {
   height: 100%;
   width: 100%;
   padding: 19px;
-  /*   background-color: blue; */
-  /*   border: 1px solid black; */
 }
 
 /* * card CSS */
@@ -134,36 +132,70 @@ body {
 /* TODO Add Book Form */
 
 .popup {
+  font-family: "Barlow Condensed", sans-serif;
+  font-size: 18px;
   display: block;
   position: fixed;
   top: 50%;
   left: 50%;
+  width: 500px;
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 3px solid black;
 }
 
 .popup-content {
-  text-align: center;
+  text-align: start;
+}
+
+.form-upper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 24px;
+  font-size: 48px;
   cursor: pointer;
 }
 
+.book-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 15px;
+}
+
 .form-input {
-  display: block;
+  /* display: block; */
   width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
+  padding: 7px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+input[data-state="invalid"] {
+  border-color: red;
+}
+
+input[data-state="valid"] {
+  border-color: green;
+}
+
+.form-read-wrapper {
+  display: flex;
+}
+
+.form-read-wrapper input {
+  height: 23px;
+  width: 47px;
+}
+
+#read:hover {
+  cursor: pointer;
 }
 
 .submit-button {
