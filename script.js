@@ -1,12 +1,12 @@
-// TODO Complete add book form
-
 const myLibrary = [];
-
 const form = document.getElementById("bookForm");
 const input = document.querySelector("input");
+let newBook;
 window.onload = function () {
   form.reset();
 };
+
+//* Book constructor
 
 function Book(title, author, pageNo, read) {
   this.title = title;
@@ -27,34 +27,45 @@ function addBookToLibrary(book) {
 
 const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, "not read yet");
 
+//TODO Add book button to bring up form
+
 const addBookButton = document.getElementById("add-book");
 
-addBookButton.addEventListener("click", () => {
-  console.log("working");
-});
+addBookButton.addEventListener("click", () => {});
 
-// * Empty form validation
-const value = input.value;
+// * Function to get values from the form and add them to array
 
-input.addEventListener("input", () => {
-  if (!value) {
-    input.dataset.state = "";
-    return;
-  }
+const submitButton = document.querySelector(".submit-button");
 
-  const trimmed = value.trim();
+submitButton.addEventListener("click", (event) => {
+  event.preventDefault();
 
-  form.addEventListener("submit", (evt) => {
-    evt.preventDefault();
-    console.log("Submitting");
-    // Validate input
+  const formFields = ["title", "author", "pages", "read"];
+  const formValues = [];
 
-    if (trimmed) {
-      input.dataset.state = "valid";
+  formFields.forEach((field) => {
+    let fieldValue;
+
+    if (field === "read") {
+      if (document.querySelector(`input[id='${field}']`).checked === true) {
+        fieldValue = "read";
+      } else {
+        fieldValue = "not read";
+      }
     } else {
-      input.dataset.state = "invalid";
+      fieldValue = document.querySelector(`input[id='${field}']`).value;
     }
+
+    formValues.push(fieldValue);
   });
+
+  newBook = new Book(
+    formValues[0],
+    formValues[1],
+    formValues[2],
+    formValues[3]
+  );
+  return newBook;
 });
 
 // const theFellowshipOfTheRing = new Book(
