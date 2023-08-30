@@ -43,18 +43,26 @@ submitButton.addEventListener("click", (event) => {
   const formFields = ["title", "author", "pages", "read"];
   const formValues = [];
 
-  formFields.forEach((field) => {
-    let fieldValue;
+  // formFields.forEach((field) => {
+  //   let fieldValue;
 
-    if (field === "read") {
-      if (document.querySelector(`input[id='${field}']`).checked === true) {
-        fieldValue = "read";
-      } else {
-        fieldValue = "not read";
-      }
-    } else {
-      fieldValue = document.querySelector(`input[id='${field}']`).value;
-    }
+  //   if (field === "read") {
+  //     if (document.querySelector(`input[id='${field}']`).checked === true) {
+  //       fieldValue = "read";
+  //     } else {
+  //       fieldValue = "not read";
+  //     }
+  //   } else {
+  //     fieldValue = document.querySelector(`input[id='${field}']`).value;
+  //   }
+
+  formFields.forEach((field) => {
+    let fieldValue =
+      field === "read"
+        ? document.querySelector(`input[id='${field}']`).checked
+          ? "read"
+          : "not read"
+        : document.querySelector(`input[id='${field}']`).value;
 
     formValues.push(fieldValue);
   });
