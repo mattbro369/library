@@ -102,7 +102,7 @@
         </div>
       </div>
       <!-- * Pop up form -->
-      <!-- TODO Go through book form and double check -->
+      <!-- TODO Implement functional close button on popup -->
       <div
         id="popupForm"
         class="popup"
@@ -110,12 +110,17 @@
         <div class="popup-content">
           <div class="form-upper">
             <h2 class="popup-title">Add a Book</h2>
-            <div
+            <!-- <div
               class="close-button"
               id="closePopup"
             >
               &times;
-            </div>
+            </div> -->
+            <input
+              type="image"
+              id="close-icon"
+              src="./images/close-icon.png"
+            />
           </div>
           <form
             action="https://httpbin.org/post"

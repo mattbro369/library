@@ -1,6 +1,7 @@
 const myLibrary = [];
 const form = document.getElementById("bookForm");
 const input = document.querySelector("input");
+const popup = document.querySelector(".popup");
 let newBook;
 window.onload = function () {
   form.reset();
@@ -27,13 +28,34 @@ function addBookToLibrary(book) {
 
 const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, "not read yet");
 
-//TODO Add book button to bring up form
-
+//TODO Make cross button on form close form
+// * Open and close popup form
 const addBookButton = document.getElementById("add-book");
+const closePopupButton = document.getElementById("close-icon");
 
-addBookButton.addEventListener("click", () => {});
+function formDisplayChange() {
+  if (popup.style.display === "block") {
+    popup.style.display = "none";
+  } else {
+    popup.style.display = "block";
+  }
+}
+
+addBookButton.addEventListener("click", () => {
+  formDisplayChange();
+});
+
+function closePopup() {
+  popup.style.display = "none";
+}
+
+closePopupButton.addEventListener("click", () => {
+  closePopup();
+  form.reset();
+});
 
 // * Function to get values from the form and add them to array
+//TODO When the form is submitted, add card with book info
 
 const submitButton = document.querySelector(".submit-button");
 
@@ -42,19 +64,6 @@ submitButton.addEventListener("click", (event) => {
 
   const formFields = ["title", "author", "pages", "read"];
   const formValues = [];
-
-  // formFields.forEach((field) => {
-  //   let fieldValue;
-
-  //   if (field === "read") {
-  //     if (document.querySelector(`input[id='${field}']`).checked === true) {
-  //       fieldValue = "read";
-  //     } else {
-  //       fieldValue = "not read";
-  //     }
-  //   } else {
-  //     fieldValue = document.querySelector(`input[id='${field}']`).value;
-  //   }
 
   formFields.forEach((field) => {
     let fieldValue =
@@ -73,6 +82,9 @@ submitButton.addEventListener("click", (event) => {
     formValues[2],
     formValues[3]
   );
+
+  form.reset();
+
   return newBook;
 });
 
