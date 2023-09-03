@@ -54,22 +54,58 @@ function closePopup() {
 
 closePopupButton.addEventListener("click", () => {
   closePopup();
+  // ? This works but seems like a hack, maybe needs improving...
+  for (let i = 0; i < 3; i++) {
+    removeErrorInput(formInputs[i]);
+  }
   bookForm.reset();
 });
 
 //TODO When the form is submitted, add card with book info
+
+// * Form validation on submit -- this mostly checks if all fields are filled in
 
 const submitButton = document.querySelector(".submit-button");
 
 submitButton.addEventListener("click", (event) => {
   event.preventDefault();
 
-  // * Form validation
   let errors = 0;
+  let errorMessage;
+
+  // TODO Only allow one error message at a time
+  // TODO Make sure when form is closed all error messages are removed
+
   formInputs.forEach((input) => {
     if (input.value.trim() === "") {
       input.classList.add("invalid");
       console.log(input.id);
+      let errorId = input.id;
+
+      let newDiv = document.createElement("div");
+      newDiv.classList.add("invalid-message");
+
+      switch (errorId) {
+        case "title":
+          errorMessage = "Please enter a book title";
+          newDiv.innerText = errorMessage;
+          document.querySelector(".form-title-wrapper").appendChild(newDiv);
+          break;
+
+        case "author":
+          errorMessage = "Please enter an author's name";
+          newDiv.innerText = errorMessage;
+          document.querySelector(".form-author-wrapper").appendChild(newDiv);
+          break;
+
+        case "pages":
+          errorMessage = "Please enter a number of pages";
+          newDiv.innerText = errorMessage;
+          document.querySelector(".form-pages-wrapper").appendChild(newDiv);
+          break;
+        default:
+          break;
+      }
       errors++;
     }
   });
@@ -105,25 +141,21 @@ submitButton.addEventListener("click", (event) => {
   return newBook;
 });
 
-// const theFellowshipOfTheRing = new Book(
-// "The Fellowship of the Ring",
-// "J.R.R Tolkien",
-// 432,
-// "read"
-// );
-//
-// const prisonerOfAzkaban = new Book(
-// "Harry Potter and the Prisoner of Azkaban",
-// "J.K Rowling",
-// 435,
-// "read"
-// );
-//
-// const catchingFire = new Book(
-// "The Hunger Games: Catching Fire",
-// "Suzanne Collins",
-// 391,
-// "not read"
-// );
+//* Function to remove error messages, and do so on input.
 
-// console.log(catchingFire.bookInfo());
+function removeErrorInput(input) {
+  input.classList.remove("invalid");
+  const errorMessageElement =
+    input.parentElement.querySelector(".invalid-message");
+  if (errorMessageElement) {
+    input.parentElement.removeChild(errorMessageElement);
+  }
+}
+
+formInputs.forEach((input) => {
+  input.addEventListener("input", (event) => {
+    if (input.classList.contains("invalid")) {
+      removeErrorInput(input);
+    }
+  });
+});
