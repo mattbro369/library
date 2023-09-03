@@ -1,10 +1,13 @@
 const myLibrary = [];
-const form = document.getElementById("bookForm");
+const bookForm = document.getElementById("bookForm");
+bookForm.noValidate = true;
 const input = document.querySelector("input");
 const popup = document.querySelector(".popup");
+const formInputs = document.querySelectorAll(".form-input");
 let newBook;
+
 window.onload = function () {
-  form.reset();
+  bookForm.reset();
 };
 
 //* Book constructor
@@ -28,7 +31,6 @@ function addBookToLibrary(book) {
 
 const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, "not read yet");
 
-//TODO Make cross button on form close form
 // * Open and close popup form
 const addBookButton = document.getElementById("add-book");
 const closePopupButton = document.getElementById("close-icon");
@@ -43,6 +45,7 @@ function formDisplayChange() {
 
 addBookButton.addEventListener("click", () => {
   formDisplayChange();
+  console.log("working");
 });
 
 function closePopup() {
@@ -51,16 +54,39 @@ function closePopup() {
 
 closePopupButton.addEventListener("click", () => {
   closePopup();
-  form.reset();
+  bookForm.reset();
 });
 
 // * Function to get values from the form and add them to array
 //TODO When the form is submitted, add card with book info
+// TODO Form validation when button is clicked
 
 const submitButton = document.querySelector(".submit-button");
 
+function validateForm() {
+  if (input.value.trim() === "") {
+    console.log(input);
+    return false;
+  }
+  return true;
+}
+
 submitButton.addEventListener("click", (event) => {
   event.preventDefault();
+
+  // * Form validation
+  let errors = 0;
+  formInputs.forEach((input) => {
+    if (input.value.trim() === "") {
+      input.classList.add("invalid");
+      console.log(input.id);
+      errors++;
+    }
+  });
+
+  if (errors > 0) {
+    return;
+  }
 
   const formFields = ["title", "author", "pages", "read"];
   const formValues = [];
@@ -83,7 +109,8 @@ submitButton.addEventListener("click", (event) => {
     formValues[3]
   );
 
-  form.reset();
+  bookForm.reset();
+  closePopup();
 
   return newBook;
 });
