@@ -57,19 +57,9 @@ closePopupButton.addEventListener("click", () => {
   bookForm.reset();
 });
 
-// * Function to get values from the form and add them to array
 //TODO When the form is submitted, add card with book info
-// TODO Form validation when button is clicked
 
 const submitButton = document.querySelector(".submit-button");
-
-function validateForm() {
-  if (input.value.trim() === "") {
-    console.log(input);
-    return false;
-  }
-  return true;
-}
 
 submitButton.addEventListener("click", (event) => {
   event.preventDefault();
