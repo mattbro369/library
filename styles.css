@@ -94,10 +94,8 @@ body {
 }
 
 .card-title-wrapper {
-  /* background-color: yellow; */
   grid-column: 1 / 4;
   display: flex;
-  /* padding-left: 10px; */
   align-items: center;
 }
 
@@ -128,8 +126,6 @@ body {
 .card-right {
   grid-column: 3 / 4;
 }
-
-/* TODO Add Book Form */
 
 .popup {
   font-family: "Barlow Condensed", sans-serif;
@@ -177,12 +173,12 @@ body {
   border-radius: 4px;
 }
 
-input[data-state="invalid"] {
-  border: 1px solid red;
+.valid {
+  border: 1px solid green;
 }
 
-input[data-state="valid"] {
-  border-color: green;
+.invalid {
+  border: 1px solid red;
 }
 
 .form-read-wrapper {
