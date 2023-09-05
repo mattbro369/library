@@ -64,10 +64,10 @@ closePopupButton.addEventListener("click", () => {
 });
 
 //TODO: When the form is submitted, add card with book info
-
 // TODO: Restrict input for page number to only numbers using event listener.
 
 const pageNumberInput = document.getElementById("pages");
+const pageInputWrapper = document.querySelector(".form-pages-wrapper");
 
 function isNumberKey(event) {
   let charCode = event.code;
@@ -83,15 +83,16 @@ function isNumberKey(event) {
     charCode !== "Backspace" &&
     charCode !== "Tab"
   ) {
-    event.preventDefault();
-    newDiv.classList.add("invalid-message");
-    newDiv.innerText = "Please only enter a number";
-    document.querySelector(".form-pages-wrapper").appendChild(newDiv);
-  } else if (
-    containsNumbers(charCode) &&
-    document.querySelector(".form-pages-wrapper").childNodes.length > 2
-  ) {
-    removeErrorInput(document.querySelector(".invalid-message"));
+    if (pageInputWrapper.childNodes.length > 5) {
+      event.preventDefault();
+      return;
+    } else {
+      event.preventDefault();
+      let newDiv = document.createElement("div");
+      newDiv.classList.add("invalid-message");
+      newDiv.innerText = "Please only enter numbers";
+      pageInputWrapper.appendChild(newDiv);
+    }
   }
 }
 
@@ -106,29 +107,30 @@ submitButton.addEventListener("click", (event) => {
 
   let errors = 0;
 
-  // TODO: Make input only accept numbers
-
   formInputs.forEach((input) => {
     if (input.value.trim() === "") {
       input.classList.add("invalid");
-      console.log(input.id);
+      // console.log(input.id);
       let errorId = input.id;
-
+      let newDiv = document.createElement("div");
       newDiv.classList.add("invalid-message");
 
       switch (errorId) {
         case "title":
-          newDiv.innerText = "Please enter a book title";
+          errorMessage = "Please enter a book title";
+          newDiv.innerText = errorMessage;
           document.querySelector(".form-title-wrapper").appendChild(newDiv);
           break;
 
         case "author":
-          newDiv.innerText = "Please enter an author's name";
+          errorMessage = "Please enter an author's name ";
+          newDiv.innerText = errorMessage;
           document.querySelector(".form-author-wrapper").appendChild(newDiv);
           break;
 
         case "pages":
-          newDiv.innerText = "Please enter a number of pages";
+          errorMessage = "Please enter a number of pages";
+          newDiv.innerText = errorMessage;
           document.querySelector(".form-pages-wrapper").appendChild(newDiv);
           break;
         default:
@@ -170,6 +172,8 @@ submitButton.addEventListener("click", (event) => {
 });
 
 //NOTE: Function to remove error messages, and do so on input.
+
+// FIX: Error messages are being removed incorrectly
 
 function removeErrorInput(input) {
   input.classList.remove("invalid");
