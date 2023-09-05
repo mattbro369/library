@@ -79,6 +79,7 @@ function isNumberKey(event) {
   }
 
   if (
+    // NOTE: Logic = if no numbers, not backspace or tab...
     !containsNumbers(charCode) &&
     charCode !== "Backspace" &&
     charCode !== "Tab"
@@ -93,6 +94,11 @@ function isNumberKey(event) {
       newDiv.innerText = "Please only enter numbers";
       pageInputWrapper.appendChild(newDiv);
     }
+  } else if (
+    pageInputWrapper.childNodes.length > 5 &&
+    containsNumbers(charCode)
+  ) {
+    pageInputWrapper.removeChild(pageInputWrapper.lastChild);
   }
 }
 
