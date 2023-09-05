@@ -4,13 +4,14 @@ bookForm.noValidate = true;
 const input = document.querySelector("input");
 const popup = document.querySelector(".popup");
 const formInputs = document.querySelectorAll(".form-input");
+const newDiv = document.createElement("div");
 let newBook;
 
 window.onload = function () {
   bookForm.reset();
 };
 
-//* Book constructor
+//NOTE: Book constructor
 
 function Book(title, author, pageNo, read) {
   this.title = title;
@@ -19,7 +20,7 @@ function Book(title, author, pageNo, read) {
   this.read = read;
   this.bookInfo = function () {
     console.log(
-      `${this.title} by ${this.author}, ${this.pageNo} pages, ${this.read}`
+      `${this.title} by ${this.author}, ${this.pageNo} pages, ${this.read}`,
     );
   };
 }
@@ -29,9 +30,10 @@ function addBookToLibrary(book) {
   return myLibrary;
 }
 
-const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, "not read yet");
+// const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, "not read yet");
 
-// * Open and close popup form
+// NOTE: Open and close popup form
+
 const addBookButton = document.getElementById("add-book");
 const closePopupButton = document.getElementById("close-icon");
 
@@ -61,9 +63,41 @@ closePopupButton.addEventListener("click", () => {
   bookForm.reset();
 });
 
-//TODO When the form is submitted, add card with book info
+//TODO: When the form is submitted, add card with book info
 
-// * Form validation on submit -- this mostly checks if all fields are filled in
+// TODO: Restrict input for page number to only numbers using event listener.
+
+const pageNumberInput = document.getElementById("pages");
+
+function isNumberKey(event) {
+  let charCode = event.code;
+  // console.log(charKey);
+  console.log(charCode);
+
+  function containsNumbers(str) {
+    return /\d/.test(str);
+  }
+
+  if (
+    !containsNumbers(charCode) &&
+    charCode !== "Backspace" &&
+    charCode !== "Tab"
+  ) {
+    event.preventDefault();
+    newDiv.classList.add("invalid-message");
+    newDiv.innerText = "Please only enter a number";
+    document.querySelector(".form-pages-wrapper").appendChild(newDiv);
+  } else if (
+    containsNumbers(charCode) &&
+    document.querySelector(".form-pages-wrapper").childNodes.length > 2
+  ) {
+    removeErrorInput(document.querySelector(".invalid-message"));
+  }
+}
+
+pageNumberInput.addEventListener("keydown", isNumberKey);
+
+// NOTE: Form validation on submit -- this mostly checks if all fields are filled in
 
 const submitButton = document.querySelector(".submit-button");
 
@@ -71,10 +105,8 @@ submitButton.addEventListener("click", (event) => {
   event.preventDefault();
 
   let errors = 0;
-  let errorMessage;
 
-  // TODO Only allow one error message at a time
-  // TODO Make sure when form is closed all error messages are removed
+  // TODO: Make input only accept numbers
 
   formInputs.forEach((input) => {
     if (input.value.trim() === "") {
@@ -82,25 +114,21 @@ submitButton.addEventListener("click", (event) => {
       console.log(input.id);
       let errorId = input.id;
 
-      let newDiv = document.createElement("div");
       newDiv.classList.add("invalid-message");
 
       switch (errorId) {
         case "title":
-          errorMessage = "Please enter a book title";
-          newDiv.innerText = errorMessage;
+          newDiv.innerText = "Please enter a book title";
           document.querySelector(".form-title-wrapper").appendChild(newDiv);
           break;
 
         case "author":
-          errorMessage = "Please enter an author's name";
-          newDiv.innerText = errorMessage;
+          newDiv.innerText = "Please enter an author's name";
           document.querySelector(".form-author-wrapper").appendChild(newDiv);
           break;
 
         case "pages":
-          errorMessage = "Please enter a number of pages";
-          newDiv.innerText = errorMessage;
+          newDiv.innerText = "Please enter a number of pages";
           document.querySelector(".form-pages-wrapper").appendChild(newDiv);
           break;
         default:
@@ -132,16 +160,16 @@ submitButton.addEventListener("click", (event) => {
     formValues[0],
     formValues[1],
     formValues[2],
-    formValues[3]
+    formValues[3],
   );
 
   bookForm.reset();
   closePopup();
-
+  console.log(newBook);
   return newBook;
 });
 
-//* Function to remove error messages, and do so on input.
+//NOTE: Function to remove error messages, and do so on input.
 
 function removeErrorInput(input) {
   input.classList.remove("invalid");
