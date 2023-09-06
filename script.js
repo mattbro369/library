@@ -154,8 +154,8 @@ submitButton.addEventListener("click", (event) => {
     let fieldValue =
       field === "read"
         ? document.querySelector(`input[id='${field}']`).checked
-          ? "read"
-          : "not read"
+          ? "Read"
+          : "Not read"
         : document.querySelector(`input[id='${field}']`).value;
 
     formValues.push(fieldValue);
@@ -170,7 +170,7 @@ submitButton.addEventListener("click", (event) => {
 
   bookForm.reset();
   closePopup();
-  console.log(newBook);
+  createBookCard();
   return newBook;
 });
 
@@ -201,7 +201,6 @@ function createBookCard() {
     "card-right-read",
   ];
 
-  // TODO: For loop to generate divs, add classes and appendChild to build card
   for (let i = 0; i < classArray.length; i++) {
     let newDiv = document.createElement("div");
     newDiv.classList.add(classArray[i]);
@@ -213,7 +212,7 @@ function createBookCard() {
 
     if (classArray[i] === "card-title-wrapper") {
       let newH2 = document.createElement("h2");
-      newH2.innerText = "New title";
+      newH2.innerText = newBook.title;
       newCard.querySelector(".card-title-wrapper").appendChild(newH2);
     } else if (classArray[i] === "card-left") {
       for (let i = 0; i < cardLeftClassArray.length; i++) {
@@ -253,15 +252,15 @@ function createBookCard() {
 
         switch (cardRightClassArray[i]) {
           case "card-right-author":
-            h3Text = "Author - user";
+            h3Text = newBook.author;
             break;
 
           case "card-right-pages":
-            h3Text = "Pages - user";
+            h3Text = newBook.pageNo;
             break;
 
           case "card-right-read":
-            h3Text = "Read?- user";
+            h3Text = newBook.read;
             break;
 
           default:
