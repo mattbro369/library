@@ -56,15 +56,12 @@ function closePopup() {
 
 closePopupButton.addEventListener("click", () => {
   closePopup();
-  // ? This works but seems like a hack, maybe needs improving...
+  // NOTE: This works but seems like a hack, maybe needs improving...
   for (let i = 0; i < 3; i++) {
     removeErrorInput(formInputs[i]);
   }
   bookForm.reset();
 });
-
-//TODO: When the form is submitted, add card with book info
-// TODO: Restrict input for page number to only numbers using event listener.
 
 const pageNumberInput = document.getElementById("pages");
 const pageInputWrapper = document.querySelector(".form-pages-wrapper");
@@ -177,9 +174,73 @@ submitButton.addEventListener("click", (event) => {
   return newBook;
 });
 
-//NOTE: Function to remove error messages, and do so on input.
+// TODO: Add card element on successful submit.
+function createBookCard() {
+  let newDiv = document.createElement("div");
+  let cardsWrapper = document.querySelector(".main-cards-wrapper");
+  newDiv.classList.add("card");
+  cardsWrapper.appendChild(newDiv);
 
-// FIX: Error messages are being removed incorrectly
+  // NOTE: Title & Left card class array
+  let classArray = [
+    "card-title-wrapper",
+    "card-left",
+    "card-seperator",
+    "card-right",
+  ];
+
+  let cardLeftClassArray = [
+    "card-left-author",
+    "card-left-pages",
+    "card-left-read",
+  ];
+
+  // TODO: For loop to generate divs, add classes and appendChild to build card
+  for (let i = 0; i < classArray.length; i++) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add(classArray[i]);
+    cardsWrapper.lastChild.appendChild(newDiv);
+
+    let newCard = cardsWrapper.lastChild;
+    let newCardLeft = newCard.querySelector(".card-left");
+
+    if (classArray[i] === "card-title-wrapper") {
+      let newH2 = document.createElement("h2");
+      newH2.innerText = "New title";
+      newCard.querySelector(".card-title-wrapper").appendChild(newH2);
+    } else if (classArray[i] === "card-left") {
+      for (let i = 0; i < cardLeftClassArray.length; i++) {
+        let newDiv = document.createElement("div");
+        newDiv.classList.add(cardLeftClassArray[i]);
+
+        let newH3 = document.createElement("h3");
+        let h3Text;
+
+        switch (cardLeftClassArray[i]) {
+          case "card-left-author":
+            h3Text = "Author";
+            break;
+
+          case "card-left-pages":
+            h3Text = "Pages";
+            break;
+
+          case "card-left-read":
+            h3Text = "Read?";
+            break;
+
+          default:
+            break;
+        }
+
+        newH3.innerText = h3Text;
+        newCardLeft.appendChild(newDiv).appendChild(newH3);
+      }
+    }
+  }
+}
+
+//NOTE: Function to remove error messages, and do so on input.
 
 function removeErrorInput(input) {
   input.classList.remove("invalid");
