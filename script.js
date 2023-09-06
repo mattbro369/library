@@ -195,6 +195,12 @@ function createBookCard() {
     "card-left-read",
   ];
 
+  let cardRightClassArray = [
+    "card-right-author",
+    "card-right-pages",
+    "card-right-read",
+  ];
+
   // TODO: For loop to generate divs, add classes and appendChild to build card
   for (let i = 0; i < classArray.length; i++) {
     let newDiv = document.createElement("div");
@@ -203,6 +209,7 @@ function createBookCard() {
 
     let newCard = cardsWrapper.lastChild;
     let newCardLeft = newCard.querySelector(".card-left");
+    let newCardRight = newCard.querySelector(".card-right");
 
     if (classArray[i] === "card-title-wrapper") {
       let newH2 = document.createElement("h2");
@@ -235,6 +242,34 @@ function createBookCard() {
 
         newH3.innerText = h3Text;
         newCardLeft.appendChild(newDiv).appendChild(newH3);
+      }
+    } else if (classArray[i] === "card-right") {
+      for (let i = 0; i < cardRightClassArray.length; i++) {
+        let newDiv = document.createElement("div");
+        newDiv.classList.add(cardRightClassArray[i]);
+
+        let newH3 = document.createElement("h3");
+        let h3Text;
+
+        switch (cardRightClassArray[i]) {
+          case "card-right-author":
+            h3Text = "Author - user";
+            break;
+
+          case "card-right-pages":
+            h3Text = "Pages - user";
+            break;
+
+          case "card-right-read":
+            h3Text = "Read?- user";
+            break;
+
+          default:
+            break;
+        }
+
+        newH3.innerText = h3Text;
+        newCardRight.appendChild(newDiv).appendChild(newH3);
       }
     }
   }
