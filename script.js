@@ -1,41 +1,80 @@
-const myLibrary = [];
-const bookForm = document.getElementById("bookForm");
-bookForm.noValidate = true;
-const input = document.querySelector("input");
-const popup = document.querySelector(".popup");
-const formInputs = document.querySelectorAll(".form-input");
-const newDiv = document.createElement("div");
-let newBook;
-
 window.onload = function () {
   bookForm.reset();
 };
 
+const myLibrary = [];
+const cardsWrapper = document.querySelector(".main-cards-wrapper");
+// let newBook;
+
 //NOTE: Book constructor
 
-function Book(title, author, pageNo, read) {
-  this.title = title;
-  this.author = author;
-  this.pageNo = pageNo;
-  this.read = read;
-  // this.bookInfo = function () {
-  //   console.log(
-  //     `${this.title} by ${this.author}, ${this.pageNo} pages, ${this.read}`,
-  //   );
-  // };
-
-  return;
+class Book {
+  constructor(title, author, pageNo, read) {
+    this.title = title;
+    this.author = author;
+    this.pageNo = pageNo;
+    this.isRead = read;
+  }
 }
 
-function addBookToLibrary(book) {
-  myLibrary.push(book);
-  return myLibrary;
+// NOTE: Library constructor
+
+class Library {
+  constructor() {
+    this.books = [];
+  }
+
+  addBook(newBook) {
+    if (!this.isInLibrary(newBook)) {
+      this.books.push(newBook);
+    }
+  }
+
+  removeBook(title) {
+    this.books = this.books.filter((book) => book.title !== title);
+  }
+
+  getBook(title) {
+    return this.books.find((book) => book.title === title);
+  }
+
+  isInLibrary(newBook) {
+    return this.books.some((book) => book.title === newBook.title);
+  }
 }
 
-// const theHobbit = new Book();
+const library = new Library();
+
+const harryPotter = new Book("Harry Potter", "J.K Rowling", 295, "read");
+const redRising = new Book("Red Rising", "Pierce Brown", 295, "read");
+
+// NOTE: Old book constructor, updated to use class
+
+// function Book(title, author, pageNo, read) {
+//   this.title = title;
+//   this.author = author;
+//   this.pageNo = pageNo;
+//   this.read = read;
+//   this.bookInfo = function () {
+//     console.log(
+//       `${this.title} by ${this.author}, ${this.pageNo} pages, ${this.read}`,
+//     );
+//   };
+//
+//   return;
+// }
+
+// function addBookToLibrary(book) {
+//   myLibrary.push(book);
+//   return myLibrary;
+// }
 
 // NOTE: Open and close popup form
 
+const bookForm = document.getElementById("bookForm");
+const input = document.querySelector("input");
+const popup = document.querySelector(".popup");
+const formInputs = document.querySelectorAll(".form-input");
 const addBookButton = document.getElementById("add-book");
 const closePopupButton = document.getElementById("close-icon");
 
@@ -103,13 +142,14 @@ function isNumberKey(event) {
 
 pageNumberInput.addEventListener("keydown", isNumberKey);
 
-// NOTE: Form validation on submit -- this mostly checks if all fields are filled in
+// NOTE: Submit button functions (Validation of form + adding books to library)
 
 const submitButton = document.querySelector(".submit-button");
 
 submitButton.addEventListener("click", (event) => {
   event.preventDefault();
 
+  // NOTE: Validation
   let errors = 0;
 
   formInputs.forEach((input) => {
@@ -174,16 +214,14 @@ submitButton.addEventListener("click", (event) => {
 
   bookForm.reset();
   closePopup();
-  addBookToLibrary(newBook);
+  // addBookToLibrary(newBook);
+  library.addBook(newBook);
   createBookCard();
-  return newBook;
 });
 
-// TODO: Add card element on successful submit.
-
 function createBookCard() {
-  let newDiv = document.createElement("div");
   let cardsWrapper = document.querySelector(".main-cards-wrapper");
+  let newDiv = document.createElement("div");
   newDiv.classList.add("card");
   cardsWrapper.appendChild(newDiv);
 
@@ -219,7 +257,7 @@ function createBookCard() {
 
     if (classArray[i] === "card-title-wrapper") {
       let newH2 = document.createElement("h2");
-      newH2.innerText = newBook.title;
+      // newH2.innerText = newBook.title;
       newCard.querySelector(".card-title-wrapper").appendChild(newH2);
     } else if (classArray[i] === "card-left") {
       for (let i = 0; i < cardLeftClassArray.length; i++) {
@@ -257,24 +295,24 @@ function createBookCard() {
         let newH3 = document.createElement("h3");
         let h3Text;
 
-        switch (cardRightClassArray[i]) {
-          case "card-right-author":
-            h3Text = newBook.author;
-            break;
+        // switch (cardRightClassArray[i]) {
+        //   case "card-right-author":
+        //     h3Text = newBook.author;
+        //     break;
+        //
+        //   case "card-right-pages":
+        //     h3Text = newBook.pageNo;
+        //     break;
+        //
+        //   case "card-right-read":
+        //     h3Text = newBook.read;
+        //     break;
+        //
+        //   default:
+        //     break;
+        // }
 
-          case "card-right-pages":
-            h3Text = newBook.pageNo;
-            break;
-
-          case "card-right-read":
-            h3Text = newBook.read;
-            break;
-
-          default:
-            break;
-        }
-
-        newH3.innerText = h3Text;
+        // newH3.innerText = h3Text;
         newCardRight.appendChild(newDiv).appendChild(newH3);
       }
     }
@@ -299,3 +337,9 @@ formInputs.forEach((input) => {
     }
   });
 });
+
+// TODO: Function to loop through myLibrary array and print objects to card instead of form inputs.
+
+// let harryPotter = new Book("Harry Potter", "J.K Rowling", 295, "read");
+// let redRising = new Book("Red Rising", "Pierce Brown", 295, "read");
+// myLibrary.push(harryPotter, redRising);
