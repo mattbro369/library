@@ -149,6 +149,8 @@ submitButton.addEventListener("click", (event) => {
     return;
   }
 
+  // NOTE: Creating book element
+
   const formFields = ["title", "author", "pages", "read"];
   const formValues = [];
 
@@ -178,6 +180,7 @@ submitButton.addEventListener("click", (event) => {
 });
 
 // TODO: Add card element on successful submit.
+
 function createBookCard() {
   let newDiv = document.createElement("div");
   let cardsWrapper = document.querySelector(".main-cards-wrapper");
@@ -185,6 +188,7 @@ function createBookCard() {
   cardsWrapper.appendChild(newDiv);
 
   // NOTE: Title & Left card class array
+
   let classArray = [
     "card-title-wrapper",
     "card-left",
