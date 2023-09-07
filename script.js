@@ -18,11 +18,13 @@ function Book(title, author, pageNo, read) {
   this.author = author;
   this.pageNo = pageNo;
   this.read = read;
-  this.bookInfo = function () {
-    console.log(
-      `${this.title} by ${this.author}, ${this.pageNo} pages, ${this.read}`,
-    );
-  };
+  // this.bookInfo = function () {
+  //   console.log(
+  //     `${this.title} by ${this.author}, ${this.pageNo} pages, ${this.read}`,
+  //   );
+  // };
+
+  return;
 }
 
 function addBookToLibrary(book) {
@@ -30,7 +32,7 @@ function addBookToLibrary(book) {
   return myLibrary;
 }
 
-// const theHobbit = new Book("The Hobbit", "J.R.R. Tolkien", 295, "not read yet");
+// const theHobbit = new Book();
 
 // NOTE: Open and close popup form
 
@@ -170,6 +172,7 @@ submitButton.addEventListener("click", (event) => {
 
   bookForm.reset();
   closePopup();
+  addBookToLibrary(newBook);
   createBookCard();
   return newBook;
 });
