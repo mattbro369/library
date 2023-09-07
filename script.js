@@ -2,9 +2,7 @@ window.onload = function () {
   bookForm.reset();
 };
 
-const myLibrary = [];
 const cardsWrapper = document.querySelector(".main-cards-wrapper");
-// let newBook;
 
 //NOTE: Book constructor
 
@@ -13,7 +11,7 @@ class Book {
     this.title = title;
     this.author = author;
     this.pageNo = pageNo;
-    this.isRead = read;
+    this.read = read;
   }
 }
 
@@ -45,29 +43,8 @@ class Library {
 
 const library = new Library();
 
-const harryPotter = new Book("Harry Potter", "J.K Rowling", 295, "read");
-const redRising = new Book("Red Rising", "Pierce Brown", 295, "read");
-
-// NOTE: Old book constructor, updated to use class
-
-// function Book(title, author, pageNo, read) {
-//   this.title = title;
-//   this.author = author;
-//   this.pageNo = pageNo;
-//   this.read = read;
-//   this.bookInfo = function () {
-//     console.log(
-//       `${this.title} by ${this.author}, ${this.pageNo} pages, ${this.read}`,
-//     );
-//   };
-//
-//   return;
-// }
-
-// function addBookToLibrary(book) {
-//   myLibrary.push(book);
-//   return myLibrary;
-// }
+// const harryPotter = new Book("Harry Potter", "J.K Rowling", 295, "read");
+// const redRising = new Book("Red Rising", "Pierce Brown", 295, "read");
 
 // NOTE: Open and close popup form
 
@@ -155,7 +132,6 @@ submitButton.addEventListener("click", (event) => {
   formInputs.forEach((input) => {
     if (input.value.trim() === "") {
       input.classList.add("invalid");
-      // console.log(input.id);
       let errorId = input.id;
       let newDiv = document.createElement("div");
       newDiv.classList.add("invalid-message");
@@ -212,10 +188,15 @@ submitButton.addEventListener("click", (event) => {
     formValues[3],
   );
 
+  if (library.isInLibrary(newBook)) {
+    alert("This book is already in your library");
+    return;
+  }
+
+  library.addBook(newBook);
+
   bookForm.reset();
   closePopup();
-  // addBookToLibrary(newBook);
-  library.addBook(newBook);
   createBookCard();
 });
 
@@ -225,7 +206,7 @@ function createBookCard() {
   newDiv.classList.add("card");
   cardsWrapper.appendChild(newDiv);
 
-  // NOTE: Title & Left card class array
+  // NOTE: Title & Card class array
 
   let classArray = [
     "card-title-wrapper",
@@ -257,7 +238,7 @@ function createBookCard() {
 
     if (classArray[i] === "card-title-wrapper") {
       let newH2 = document.createElement("h2");
-      // newH2.innerText = newBook.title;
+      newH2.innerText = newBook.title;
       newCard.querySelector(".card-title-wrapper").appendChild(newH2);
     } else if (classArray[i] === "card-left") {
       for (let i = 0; i < cardLeftClassArray.length; i++) {
@@ -288,6 +269,7 @@ function createBookCard() {
         newCardLeft.appendChild(newDiv).appendChild(newH3);
       }
     } else if (classArray[i] === "card-right") {
+      // NOTE: Right card classes
       for (let i = 0; i < cardRightClassArray.length; i++) {
         let newDiv = document.createElement("div");
         newDiv.classList.add(cardRightClassArray[i]);
@@ -295,24 +277,24 @@ function createBookCard() {
         let newH3 = document.createElement("h3");
         let h3Text;
 
-        // switch (cardRightClassArray[i]) {
-        //   case "card-right-author":
-        //     h3Text = newBook.author;
-        //     break;
-        //
-        //   case "card-right-pages":
-        //     h3Text = newBook.pageNo;
-        //     break;
-        //
-        //   case "card-right-read":
-        //     h3Text = newBook.read;
-        //     break;
-        //
-        //   default:
-        //     break;
-        // }
+        switch (cardRightClassArray[i]) {
+          case "card-right-author":
+            h3Text = newBook.author;
+            break;
 
-        // newH3.innerText = h3Text;
+          case "card-right-pages":
+            h3Text = newBook.pageNo;
+            break;
+
+          case "card-right-read":
+            h3Text = newBook.read;
+            break;
+
+          default:
+            break;
+        }
+
+        newH3.innerText = h3Text;
         newCardRight.appendChild(newDiv).appendChild(newH3);
       }
     }
@@ -339,6 +321,8 @@ formInputs.forEach((input) => {
 });
 
 // TODO: Function to loop through myLibrary array and print objects to card instead of form inputs.
+
+function createNewBookCard(library, newBook) {}
 
 // let harryPotter = new Book("Harry Potter", "J.K Rowling", 295, "read");
 // let redRising = new Book("Red Rising", "Pierce Brown", 295, "read");
