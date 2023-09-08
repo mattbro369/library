@@ -39,12 +39,116 @@ class Library {
   isInLibrary(newBook) {
     return this.books.some((book) => book.title === newBook.title);
   }
+
+  createBookCard(newBook) {
+    let cardsWrapper = document.querySelector(".main-cards-wrapper");
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("card");
+    cardsWrapper.appendChild(newDiv);
+
+    // NOTE: Title & Card class array
+
+    let classArray = [
+      "card-title-wrapper",
+      "card-left",
+      "card-seperator",
+      "card-right",
+    ];
+
+    let cardLeftClassArray = [
+      "card-left-author",
+      "card-left-pages",
+      "card-left-read",
+    ];
+
+    let cardRightClassArray = [
+      "card-right-author",
+      "card-right-pages",
+      "card-right-read",
+    ];
+
+    for (let i = 0; i < classArray.length; i++) {
+      let newDiv = document.createElement("div");
+      newDiv.classList.add(classArray[i]);
+      cardsWrapper.lastChild.appendChild(newDiv);
+
+      let newCard = cardsWrapper.lastChild;
+      let newCardLeft = newCard.querySelector(".card-left");
+      let newCardRight = newCard.querySelector(".card-right");
+
+      if (classArray[i] === "card-title-wrapper") {
+        let newH2 = document.createElement("h2");
+        newH2.innerText = newBook.title;
+        newCard.querySelector(".card-title-wrapper").appendChild(newH2);
+      } else if (classArray[i] === "card-left") {
+        for (let i = 0; i < cardLeftClassArray.length; i++) {
+          let newDiv = document.createElement("div");
+          newDiv.classList.add(cardLeftClassArray[i]);
+
+          let newH3 = document.createElement("h3");
+          let h3Text;
+
+          switch (cardLeftClassArray[i]) {
+            case "card-left-author":
+              h3Text = "Author";
+              break;
+
+            case "card-left-pages":
+              h3Text = "Pages";
+              break;
+
+            case "card-left-read":
+              h3Text = "Read?";
+              break;
+
+            default:
+              break;
+          }
+
+          newH3.innerText = h3Text;
+          newCardLeft.appendChild(newDiv).appendChild(newH3);
+        }
+      } else if (classArray[i] === "card-right") {
+        // NOTE: Right card classes
+        for (let i = 0; i < cardRightClassArray.length; i++) {
+          let newDiv = document.createElement("div");
+          newDiv.classList.add(cardRightClassArray[i]);
+
+          let newH3 = document.createElement("h3");
+          let h3Text;
+
+          switch (cardRightClassArray[i]) {
+            case "card-right-author":
+              h3Text = newBook.author;
+              break;
+
+            case "card-right-pages":
+              h3Text = newBook.pageNo;
+              break;
+
+            case "card-right-read":
+              h3Text = newBook.read;
+              break;
+
+            default:
+              break;
+          }
+
+          newH3.innerText = h3Text;
+          newCardRight.appendChild(newDiv).appendChild(newH3);
+        }
+      }
+    }
+  }
+
+  printAll(books) {
+    library.books.forEach((book) => {
+      library.createBookCard(book);
+    });
+  }
 }
 
 const library = new Library();
-
-// const harryPotter = new Book("Harry Potter", "J.K Rowling", 295, "read");
-// const redRising = new Book("Red Rising", "Pierce Brown", 295, "read");
 
 // NOTE: Open and close popup form
 
@@ -194,112 +298,10 @@ submitButton.addEventListener("click", (event) => {
   }
 
   library.addBook(newBook);
-
+  library.createBookCard(newBook);
   bookForm.reset();
   closePopup();
-  createBookCard();
 });
-
-function createBookCard() {
-  let cardsWrapper = document.querySelector(".main-cards-wrapper");
-  let newDiv = document.createElement("div");
-  newDiv.classList.add("card");
-  cardsWrapper.appendChild(newDiv);
-
-  // NOTE: Title & Card class array
-
-  let classArray = [
-    "card-title-wrapper",
-    "card-left",
-    "card-seperator",
-    "card-right",
-  ];
-
-  let cardLeftClassArray = [
-    "card-left-author",
-    "card-left-pages",
-    "card-left-read",
-  ];
-
-  let cardRightClassArray = [
-    "card-right-author",
-    "card-right-pages",
-    "card-right-read",
-  ];
-
-  for (let i = 0; i < classArray.length; i++) {
-    let newDiv = document.createElement("div");
-    newDiv.classList.add(classArray[i]);
-    cardsWrapper.lastChild.appendChild(newDiv);
-
-    let newCard = cardsWrapper.lastChild;
-    let newCardLeft = newCard.querySelector(".card-left");
-    let newCardRight = newCard.querySelector(".card-right");
-
-    if (classArray[i] === "card-title-wrapper") {
-      let newH2 = document.createElement("h2");
-      newH2.innerText = newBook.title;
-      newCard.querySelector(".card-title-wrapper").appendChild(newH2);
-    } else if (classArray[i] === "card-left") {
-      for (let i = 0; i < cardLeftClassArray.length; i++) {
-        let newDiv = document.createElement("div");
-        newDiv.classList.add(cardLeftClassArray[i]);
-
-        let newH3 = document.createElement("h3");
-        let h3Text;
-
-        switch (cardLeftClassArray[i]) {
-          case "card-left-author":
-            h3Text = "Author";
-            break;
-
-          case "card-left-pages":
-            h3Text = "Pages";
-            break;
-
-          case "card-left-read":
-            h3Text = "Read?";
-            break;
-
-          default:
-            break;
-        }
-
-        newH3.innerText = h3Text;
-        newCardLeft.appendChild(newDiv).appendChild(newH3);
-      }
-    } else if (classArray[i] === "card-right") {
-      // NOTE: Right card classes
-      for (let i = 0; i < cardRightClassArray.length; i++) {
-        let newDiv = document.createElement("div");
-        newDiv.classList.add(cardRightClassArray[i]);
-
-        let newH3 = document.createElement("h3");
-        let h3Text;
-
-        switch (cardRightClassArray[i]) {
-          case "card-right-author":
-            h3Text = newBook.author;
-            break;
-
-          case "card-right-pages":
-            h3Text = newBook.pageNo;
-            break;
-
-          case "card-right-read":
-            h3Text = newBook.read;
-            break;
-
-          default:
-            break;
-        }
-
-        newH3.innerText = h3Text;
-        newCardRight.appendChild(newDiv).appendChild(newH3);
-      }
-    }
-  }
-}
 
 //NOTE: Function to remove error messages, and do so on input.
 
@@ -322,8 +324,7 @@ formInputs.forEach((input) => {
 
 // TODO: Function to loop through myLibrary array and print objects to card instead of form inputs.
 
-function createNewBookCard(library, newBook) {}
-
-// let harryPotter = new Book("Harry Potter", "J.K Rowling", 295, "read");
-// let redRising = new Book("Red Rising", "Pierce Brown", 295, "read");
-// myLibrary.push(harryPotter, redRising);
+let harryPotter = new Book("Harry Potter", "J.K Rowling", 295, "Read");
+let redRising = new Book("Red Rising", "Pierce Brown", 295, "Read");
+library.addBook(harryPotter);
+library.addBook(redRising);
