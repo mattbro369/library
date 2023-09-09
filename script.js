@@ -162,10 +162,10 @@ class Library {
 }
 
 const library = new Library();
-let harryPotter = new Book("Harry Potter", "J.K Rowling", 295, "Read");
-let redRising = new Book("Red Rising", "Pierce Brown", 295, "Read");
-library.addBook(harryPotter);
-library.addBook(redRising);
+// let harryPotter = new Book("Harry Potter", "J.K Rowling", 295, "Read");
+// let redRising = new Book("Red Rising", "Pierce Brown", 295, "Read");
+// library.addBook(harryPotter);
+// library.addBook(redRising);
 
 // NOTE: Open and close popup form
 
@@ -316,6 +316,10 @@ submitButton.addEventListener("click", (event) => {
 
   library.addBook(newBook);
   library.createBookCard(newBook);
+  const removeBookButton = document.querySelector(".remove-book-button");
+  removeBookButton.addEventListener("click", () => {
+    console.log("remove button clicked");
+  });
   bookForm.reset();
   closePopup();
 });
@@ -340,10 +344,3 @@ formInputs.forEach((input) => {
 });
 
 // TODO: Function to remove book card + call library.removeBook
-
-// const removeBookButton = document.querySelector(".remove-book-button");
-// removeBookButton.addEventListener("click", () => {
-//   console.log("remove button clicked");
-// });
-//
-// function removeBookCard(event) {}
