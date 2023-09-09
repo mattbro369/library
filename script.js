@@ -44,6 +44,10 @@ class Library {
     let cardsWrapper = document.querySelector(".main-cards-wrapper");
     let newDiv = document.createElement("div");
     newDiv.classList.add("card");
+    newDiv.setAttribute(
+      "data-index-number",
+      library.books.map((book) => book.title).indexOf(newBook.title),
+    );
     cardsWrapper.appendChild(newDiv);
 
     // NOTE: Title & Card class array
@@ -79,6 +83,7 @@ class Library {
       if (classArray[i] === "card-title-wrapper") {
         let newH2 = document.createElement("h2");
         newH2.innerText = newBook.title;
+
         newCard.querySelector(".card-title-wrapper").appendChild(newH2);
 
         let newInput = document.createElement("input");
@@ -157,6 +162,10 @@ class Library {
 }
 
 const library = new Library();
+let harryPotter = new Book("Harry Potter", "J.K Rowling", 295, "Read");
+let redRising = new Book("Red Rising", "Pierce Brown", 295, "Read");
+library.addBook(harryPotter);
+library.addBook(redRising);
 
 // NOTE: Open and close popup form
 
@@ -330,9 +339,11 @@ formInputs.forEach((input) => {
   });
 });
 
-// TODO: Function to loop through myLibrary array and print objects to card instead of form inputs.
+// TODO: Function to remove book card + call library.removeBook
 
-let harryPotter = new Book("Harry Potter", "J.K Rowling", 295, "Read");
-let redRising = new Book("Red Rising", "Pierce Brown", 295, "Read");
-library.addBook(harryPotter);
-library.addBook(redRising);
+// const removeBookButton = document.querySelector(".remove-book-button");
+// removeBookButton.addEventListener("click", () => {
+//   console.log("remove button clicked");
+// });
+//
+// function removeBookCard(event) {}
