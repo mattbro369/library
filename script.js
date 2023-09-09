@@ -93,6 +93,9 @@ class Library {
         newInput.setAttribute("name", "remove-book");
         newInput.setAttribute("alt", "Remove book");
         newCard.querySelector(".card-title-wrapper").appendChild(newInput);
+        newInput.addEventListener("click", (event) => {
+          console.log(event.target.parentElement.parentElement.dataset);
+        });
       } else if (classArray[i] === "card-left") {
         for (let i = 0; i < cardLeftClassArray.length; i++) {
           let newDiv = document.createElement("div");
@@ -316,10 +319,6 @@ submitButton.addEventListener("click", (event) => {
 
   library.addBook(newBook);
   library.createBookCard(newBook);
-  const removeBookButton = document.querySelector(".remove-book-button");
-  removeBookButton.addEventListener("click", () => {
-    console.log("remove button clicked");
-  });
   bookForm.reset();
   closePopup();
 });
@@ -344,3 +343,5 @@ formInputs.forEach((input) => {
 });
 
 // TODO: Function to remove book card + call library.removeBook
+
+function removeBookCard(book) {}
