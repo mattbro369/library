@@ -41,13 +41,13 @@ class Library {
   }
 
   createBookCard(newBook) {
-    let cardsWrapper = document.querySelector(".main-cards-wrapper");
+    // let cardsWrapper = document.querySelector(".main-cards-wrapper");
     let newDiv = document.createElement("div");
     newDiv.classList.add("card");
-    newDiv.setAttribute(
-      "data-index-number",
-      library.books.map((book) => book.title).indexOf(newBook.title),
-    );
+    // newDiv.setAttribute(
+    //   "data-index-number",
+    //   library.books.map((book) => book.title).indexOf(newBook.title),
+    // );
     cardsWrapper.appendChild(newDiv);
 
     // NOTE: Title & Card class array
@@ -94,7 +94,11 @@ class Library {
         newInput.setAttribute("alt", "Remove book");
         newCard.querySelector(".card-title-wrapper").appendChild(newInput);
         newInput.addEventListener("click", (event) => {
-          console.log(event.target.parentElement.parentElement.dataset);
+          let index =
+            event.target.parentElement.parentElement.getAttribute("index");
+          removeBookCard(index);
+          library.books.splice(index, 1);
+          applyIndex();
         });
       } else if (classArray[i] === "card-left") {
         for (let i = 0; i < cardLeftClassArray.length; i++) {
@@ -210,7 +214,6 @@ const pageInputWrapper = document.querySelector(".form-pages-wrapper");
 
 function isNumberKey(event) {
   let charCode = event.code;
-  // console.log(charKey);
   console.log(charCode);
 
   function containsNumbers(str) {
@@ -321,6 +324,7 @@ submitButton.addEventListener("click", (event) => {
   library.createBookCard(newBook);
   bookForm.reset();
   closePopup();
+  applyIndex();
 });
 
 //NOTE: Function to remove error messages, and do so on input.
@@ -344,4 +348,16 @@ formInputs.forEach((input) => {
 
 // TODO: Function to remove book card + call library.removeBook
 
-function removeBookCard(book) {}
+function removeBookCard(index) {
+  let cardArray = Array.from(document.getElementsByClassName("card"));
+  cardArray[index].remove();
+}
+
+function applyIndex() {
+  let cardArray = Array.from(document.getElementsByClassName("card"));
+  i = 0;
+  cardArray.forEach((card, i) => {
+    card.setAttribute("index", i);
+    i++;
+  });
+}
