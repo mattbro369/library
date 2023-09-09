@@ -80,6 +80,14 @@ class Library {
         let newH2 = document.createElement("h2");
         newH2.innerText = newBook.title;
         newCard.querySelector(".card-title-wrapper").appendChild(newH2);
+
+        let newInput = document.createElement("input");
+        newInput.classList.add("remove-book-button");
+        newInput.setAttribute("type", "image");
+        newInput.setAttribute("src", "./images/remove-icon.png");
+        newInput.setAttribute("name", "remove-book");
+        newInput.setAttribute("alt", "Remove book");
+        newCard.querySelector(".card-title-wrapper").appendChild(newInput);
       } else if (classArray[i] === "card-left") {
         for (let i = 0; i < cardLeftClassArray.length; i++) {
           let newDiv = document.createElement("div");
