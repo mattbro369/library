@@ -147,15 +147,26 @@ class Library {
               break;
 
             case "card-right-read":
-              h3Text = newBook.read;
+              // h3Text = newBook.read;
+              let newLabel = document.createElement("label");
+              let newInput = document.createElement("input");
+              let newSpan = document.createElement("span");
+              newLabel.classList.add("switch");
+              newInput.setAttribute("type", "checkbox");
+              newSpan.classList.add("slider", "round");
+              newCardRight.appendChild(newDiv).appendChild(newLabel);
+              newLabel.appendChild(newInput);
+              newLabel.appendChild(newSpan);
+
               break;
 
             default:
               break;
           }
-
-          newH3.innerText = h3Text;
-          newCardRight.appendChild(newDiv).appendChild(newH3);
+          if (!newDiv.classList.contains("card-right-read")) {
+            newH3.innerText = h3Text;
+            newCardRight.appendChild(newDiv).appendChild(newH3);
+          }
         }
       }
     }
