@@ -153,6 +153,7 @@ class Library {
               let newSpan = document.createElement("span");
               newLabel.classList.add("switch");
               newInput.setAttribute("type", "checkbox");
+              newInput.checked = newBook.read; // NOTE: Setting the "read" status
               newSpan.classList.add("slider", "round");
               newCardRight.appendChild(newDiv).appendChild(newLabel);
               newLabel.appendChild(newInput);
@@ -309,13 +310,16 @@ submitButton.addEventListener("click", (event) => {
   const formValues = [];
 
   formFields.forEach((field) => {
-    let fieldValue =
-      field === "read"
-        ? document.querySelector(`input[id='${field}']`).checked
-          ? "Read"
-          : "Not read"
-        : document.querySelector(`input[id='${field}']`).value;
+    let fieldValue = document.querySelector(`input[id='${field}']`).value;
+    // field === "read"
+    //   ? document.querySelector(`input[id='${field}']`).checked
+    //     ? console.log("Read")
+    //     : console.log("Not read")
+    //   : document.querySelector(`input[id='${field}']`).value;
 
+    if (field === "read") {
+      fieldValue = document.getElementById("read").checked;
+    }
     formValues.push(fieldValue);
   });
 
