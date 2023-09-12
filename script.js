@@ -4,7 +4,7 @@ window.onload = function () {
 
 const cardsWrapper = document.querySelector(".main-cards-wrapper");
 
-//NOTE: Book constructor
+//* Book constructor
 
 class Book {
   constructor(title, author, pageNo, read) {
@@ -15,7 +15,7 @@ class Book {
   }
 }
 
-// NOTE: Library constructor
+// * Library constructor
 
 class Library {
   constructor() {
@@ -44,13 +44,9 @@ class Library {
     // let cardsWrapper = document.querySelector(".main-cards-wrapper");
     let newDiv = document.createElement("div");
     newDiv.classList.add("card");
-    // newDiv.setAttribute(
-    //   "data-index-number",
-    //   library.books.map((book) => book.title).indexOf(newBook.title),
-    // );
     cardsWrapper.appendChild(newDiv);
 
-    // NOTE: Title & Card class array
+    // * Title & Card class array
 
     let classArray = [
       "card-title-wrapper",
@@ -129,7 +125,7 @@ class Library {
           newCardLeft.appendChild(newDiv).appendChild(newH3);
         }
       } else if (classArray[i] === "card-right") {
-        // NOTE: Right card classes
+        // * Right card classes
         for (let i = 0; i < cardRightClassArray.length; i++) {
           let newDiv = document.createElement("div");
           newDiv.classList.add(cardRightClassArray[i]);
@@ -153,11 +149,14 @@ class Library {
               let newSpan = document.createElement("span");
               newLabel.classList.add("switch");
               newInput.setAttribute("type", "checkbox");
-              newInput.checked = newBook.read; // NOTE: Setting the "read" status
+              newInput.classList.add("read");
+              newInput.checked = newBook.read; // * Setting the "read" status
               newSpan.classList.add("slider", "round");
               newCardRight.appendChild(newDiv).appendChild(newLabel);
               newLabel.appendChild(newInput);
               newLabel.appendChild(newSpan);
+
+              newInput.addEventListener("change", listenForChange());
 
               break;
 
@@ -181,12 +180,8 @@ class Library {
 }
 
 const library = new Library();
-// let harryPotter = new Book("Harry Potter", "J.K Rowling", 295, "Read");
-// let redRising = new Book("Red Rising", "Pierce Brown", 295, "Read");
-// library.addBook(harryPotter);
-// library.addBook(redRising);
 
-// NOTE: Open and close popup form
+// * Open and close popup form
 
 const bookForm = document.getElementById("bookForm");
 const input = document.querySelector("input");
@@ -205,7 +200,6 @@ function formDisplayChange() {
 
 addBookButton.addEventListener("click", () => {
   formDisplayChange();
-  console.log("working");
 });
 
 function closePopup() {
@@ -214,7 +208,7 @@ function closePopup() {
 
 closePopupButton.addEventListener("click", () => {
   closePopup();
-  // NOTE: This works but seems like a hack, maybe needs improving...
+  // * This works but seems like a hack, maybe needs improving...
   for (let i = 0; i < 3; i++) {
     removeErrorInput(formInputs[i]);
   }
@@ -226,14 +220,13 @@ const pageInputWrapper = document.querySelector(".form-pages-wrapper");
 
 function isNumberKey(event) {
   let charCode = event.code;
-  console.log(charCode);
 
   function containsNumbers(str) {
     return /\d/.test(str);
   }
 
   if (
-    // NOTE: Logic = if no numbers, not backspace or tab...
+    // * Logic = if no numbers, not backspace or tab...
     !containsNumbers(charCode) &&
     charCode !== "Backspace" &&
     charCode !== "Tab"
@@ -258,14 +251,14 @@ function isNumberKey(event) {
 
 pageNumberInput.addEventListener("keydown", isNumberKey);
 
-// NOTE: Submit button functions (Validation of form + adding books to library)
+// * Submit button functions (Validation of form + adding books to library)
 
 const submitButton = document.querySelector(".submit-button");
 
 submitButton.addEventListener("click", (event) => {
   event.preventDefault();
 
-  // NOTE: Validation
+  // * Validation
   let errors = 0;
 
   formInputs.forEach((input) => {
@@ -304,18 +297,13 @@ submitButton.addEventListener("click", (event) => {
     return;
   }
 
-  // NOTE: Creating book element
+  // * Creating book element
 
   const formFields = ["title", "author", "pages", "read"];
   const formValues = [];
 
   formFields.forEach((field) => {
     let fieldValue = document.querySelector(`input[id='${field}']`).value;
-    // field === "read"
-    //   ? document.querySelector(`input[id='${field}']`).checked
-    //     ? console.log("Read")
-    //     : console.log("Not read")
-    //   : document.querySelector(`input[id='${field}']`).value;
 
     if (field === "read") {
       fieldValue = document.getElementById("read").checked;
@@ -327,7 +315,7 @@ submitButton.addEventListener("click", (event) => {
     formValues[0],
     formValues[1],
     formValues[2],
-    formValues[3],
+    formValues[3]
   );
 
   if (library.isInLibrary(newBook)) {
@@ -342,7 +330,7 @@ submitButton.addEventListener("click", (event) => {
   applyIndex();
 });
 
-//NOTE: Function to remove error messages, and do so on input.
+//* Function to remove error messages, and do so on input.
 
 function removeErrorInput(input) {
   input.classList.remove("invalid");
@@ -361,8 +349,6 @@ formInputs.forEach((input) => {
   });
 });
 
-// TODO: Function to remove book card + call library.removeBook
-
 function removeBookCard(index) {
   let cardArray = Array.from(document.getElementsByClassName("card"));
   cardArray[index].remove();
@@ -374,5 +360,16 @@ function applyIndex() {
   cardArray.forEach((card, i) => {
     card.setAttribute("index", i);
     i++;
+  });
+}
+
+// TODO Add event listener on read.checked to change library status if changed on card
+
+function listenForChange() {
+  let checkboxArray = Array.from(document.getElementsByClassName("read"));
+  checkboxArray.forEach((checkbox) => {
+    checkbox.addEventListener("change", () => {
+      library.books[checkboxArray.indexOf(checkbox)].read = checkbox.checked;
+    });
   });
 }
